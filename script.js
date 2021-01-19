@@ -1,11 +1,5 @@
-document.querySelector('.chessboard').addEventListener('mouseover', (e) => {
-    if (e.target.classList.contains('piece')) {
-        e.target.classList.add('highlight');
-    };
-});
+import Game from './js/Game.js';
 
-document.querySelector('.chessboard').addEventListener('mouseout', (e) => {
-    if (e.target.classList.contains('piece')) {
-        e.target.classList.remove('highlight')
-    }
-});
+const chessgame = new Game();
+
+window.chessgame = chessgame;
