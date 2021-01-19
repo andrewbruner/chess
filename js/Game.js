@@ -104,14 +104,14 @@ class Game {
             });
             movement.attack.forEach((attack) => {
                 let newNotation = null;
-                if (letters[(alpha1 + move[0] - 1)]) {
-                    newNotation = letters[(alpha1 + move[0] - 1)].toString() + (numeric1 + move[1]).toString();
+                if (letters[(alpha1 + attack[0] - 1)]) {
+                    newNotation = letters[(alpha1 + attack[0] - 1)].toString() + (numeric1 + attack[1]).toString();
                 }
                 const newSquare = this.board.squares[newNotation];
                 if (newSquare) {
                     if (newSquare.piece) {
                         if (newSquare.piece.color != piece.color) {
-                            move.push(new Move(piece, piece.square, newSquare));
+                            moves.push(new Move(piece, piece.square, newSquare));
                         }
                     }
                 }
