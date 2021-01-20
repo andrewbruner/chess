@@ -118,7 +118,7 @@ class Game {
             });
         }
 
-        piece.selected = true;
+        this.selectedPiece = piece;
         
         return moves;
 
@@ -132,6 +132,8 @@ class Game {
                 move.movePiece();
             }
         });
+
+        delete this.selectedPiece;
     }
 }
 
