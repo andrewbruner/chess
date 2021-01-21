@@ -41,7 +41,7 @@ document.querySelector('.chessboard').addEventListener('click', (event) => {
             const img = document.createElement('img');
             img.setAttribute('class', 'piece');
             img.setAttribute('data-piece', chessgame.board.squares[end.dataset.square].piece.notation);
-            img.setAttribute('src', `/pieces/${chessgame.board.squares[end.dataset.square].piece.color.charAt(0)}${chessgame.board.squares[end.dataset.square].piece.notation ? chessgame.board.squares[end.dataset.square].piece.notation : 'P'}.png`);
+            img.setAttribute('src', `./pieces/${chessgame.board.squares[end.dataset.square].piece.color.charAt(0)}${chessgame.board.squares[end.dataset.square].piece.notation ? chessgame.board.squares[end.dataset.square].piece.notation : 'P'}.png`);
             end.appendChild(img);
         }
     }
