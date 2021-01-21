@@ -10,6 +10,7 @@ class Game {
         };
         this.board = new Board();
         this.turn = null;
+        this.capturedPieces = [];
     }
 
     startGame() {
