@@ -14,6 +14,8 @@ class Game {
             black: []
         };
     }
+
+    
 }
 
 export default Game;

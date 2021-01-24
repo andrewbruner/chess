@@ -2,9 +2,8 @@ import Piece from './Piece.js';
 
 class Pawn extends Piece {
     constructor(color, square) {
-        super(color);
+        super(color, square);
         this.notation = '';
-        this.square = square;
         this.moved = false;
     }
 

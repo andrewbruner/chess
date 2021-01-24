@@ -2,9 +2,8 @@ import Piece from './Piece.js';
 
 class Rook extends Piece {
     constructor(color, square) {
-        super(color);
+        super(color, square);
         this.notation = 'R';
-        this.square = square;
         this.movement = {
             direction: [[0, 1], [1, 0], [0, -1], [-1, 0]],
             repeat: true,
