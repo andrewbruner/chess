@@ -9,7 +9,10 @@ class Game {
 
         this.board = new Board();
         this.history = [];
-        this.captured = [];
+        this.captured = {
+            white: [],
+            black: []
+        };
     }
 }
 
