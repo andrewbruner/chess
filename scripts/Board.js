@@ -80,42 +80,42 @@ class Board {
 
     setUpBoard() {
         this.a1.piece = new Rook('white', this.a1);
-        this.a2.piece = new Pawn('white', this.a1);
+        this.a2.piece = new Pawn('white', this.a2);
         this.a7.piece = new Pawn('black', this.a7);
         this.a8.piece = new Rook('black', this.a8);
 
         this.b1.piece = new Knight('white', this.b1);
-        this.b2.piece = new Pawn('white', this.b1);
+        this.b2.piece = new Pawn('white', this.b2);
         this.b7.piece = new Pawn('black', this.b7);
         this.b8.piece = new Knight('black', this.b8);
 
         this.c1.piece = new Bishop('white', this.c1);
-        this.c2.piece = new Pawn('white', this.c1);
+        this.c2.piece = new Pawn('white', this.c2);
         this.c7.piece = new Pawn('black', this.c7);
         this.c8.piece = new Bishop('black', this.c8);
 
         this.d1.piece = new Queen('white', this.d1);
-        this.d2.piece = new Pawn('white', this.d1);
+        this.d2.piece = new Pawn('white', this.d2);
         this.d7.piece = new Pawn('black', this.d7);
         this.d8.piece = new Queen('black', this.d8);
 
         this.e1.piece = new King('white', this.e1);
-        this.e2.piece = new Pawn('white', this.e1);
+        this.e2.piece = new Pawn('white', this.e2);
         this.e7.piece = new Pawn('black', this.e7);
         this.e8.piece = new King('black', this.e8);
 
         this.f1.piece = new Bishop('white', this.f1);
-        this.f2.piece = new Pawn('white', this.f1);
+        this.f2.piece = new Pawn('white', this.f2);
         this.f7.piece = new Pawn('black', this.f7);
         this.f8.piece = new Bishop('black', this.f8);
 
         this.g1.piece = new Knight('white', this.g1);
-        this.g2.piece = new Pawn('white', this.g1);
+        this.g2.piece = new Pawn('white', this.g2);
         this.g7.piece = new Pawn('black', this.g7);
         this.g8.piece = new Knight('black', this.g8);
 
         this.h1.piece = new Rook('white', this.h1);
-        this.h2.piece = new Pawn('white', this.h1);
+        this.h2.piece = new Pawn('white', this.h2);
         this.h7.piece = new Pawn('black', this.h7);
         this.h8.piece = new Rook('black', this.h8);
     }
