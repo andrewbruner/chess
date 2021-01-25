@@ -1,5 +1,6 @@
 import Piece from './Piece.js';
 import Move from '../Move.js';
+import chessgame from '../script.js';
 
 class Pawn extends Piece {
     constructor(color, square) {
@@ -10,13 +11,12 @@ class Pawn extends Piece {
 
     get movement() {
         const movement = { };
-        movement.repeat = 'once';
         if (this.color == 'white') {
-            movement.matrix = [[0, 1]];
-            movement.capture = [[1, 1], [-1, 1]];
+            movement.advance = [[0, 1]];
+            movement.attack = [[1, 1], [-1, 1]];
         } else {
-            movement.matrix = [[0, -1]];
-            movement.capture = [[1, -1], [-1, -1]];
+            movement.advance = [[0, -1]];
+            movement.attack = [[1, -1], [-1, -1]];
         }
         return movement;
     }
@@ -26,41 +26,46 @@ class Pawn extends Piece {
         const startCoordinates = this.square.coordinates;
         const startSquare = this.square;
 
-        this.movement.matrix.forEach((direction) => {
-            const endCoordinates = [startCoordinates[0] + direction[0], startCoordinates[1] + direction[1]];
+        // find advancements
+        this.movement.advance.forEach((route) => {
+            const endCoordinates = [startCoordinates[0] + route[0], startCoordinates[1] + route[1]];
             const endNotation = String.fromCharCode(endCoordinates[0] + 97) + (endCoordinates[1] + 1);
             const endSquare = chessgame.board[endNotation];
 
+            // end square is empty and move does not selfcheck
             if (!endSquare.piece && !this.selfCheck(endSquare)) {
                 moves.push(new Move(this, startSquare, endSquare));
+                // if pawn has not moved yet
                 if (!this.hasMoved) {
-                    const repeatedMove = this.repeatDirection(direction, endSquare);
-                    repeatedMove.forEach((move) => {
-                        moves.push(move);
-                    });
+                    const nextEndCoordinates = [startCoordinates[0] + route[0] + route[0], startCoordinates[1] + route[1] + route[1]];
+                    const nextEndNotation = String.fromCharCode(nextEndCoordinates[0] + 97) + (nextEndCoordinates[1] + 1);
+                    const nextEndSquare = chessgame.board[nextEndNotation];
+                    // next end square is empty and move does not selfcheck
+                    if (!nextEndSquare.piece && !this.selfCheck(nextEndSquare)) {
+                        moves.push(new Move(this, startSquare, nextEndSquare));
+                    }
                 }
-            // endSquare has opponenet piece and does not selfcheck
-            } else if (endSquare.piece.color != this.color && !this.selfCheck(endSquare)) {
-                moves.push(new Move(startSquare, endSquare));
             }
-            
+        });
+
+        // find attacks
+        this.movement.attack.forEach((capture) => {
+            const endCoordinates = [startCoordinates[0] + capture[0], startCoordinates[1] + capture[1]];
+            const endNotation = String.fromCharCode(endCoordinates[0] + 97) + (endCoordinates[1] + 1);
+            const endSquare = chessgame.board[endNotation];
+
+            // end square on board
+            if (endSquare) {
+                // end square holds piece
+                if (endSquare.piece) {
+                    // end square piece is opponent and move does not selfcheck
+                    if (endSquare.piece.color != this.color && !this.selfCheck(endSquare)) {
+                        moves.push(new Move(this, startSquare, endSquare));
+                    }
+                }
+            }
         });
         return moves;
-    }
-
-    repeatDirection(direction, startSquare) {
-        const move = [];
-        const startCoordinates = startSquare.coordinates;
-        const endCoordinates = [startCoordinates[0] + direction[0], startCoordinates[1] + direction[1]];
-        const endNotation = String.fromCharCode(endCoordinates[0] + 97) + (endCoordinates[1] + 1);
-        const endSquare = chessgame.board[endNotation];
-
-        if (endSquare) {
-            if (!endSquare.piece && !this.selfCheck(endSquare)) {
-                move.push(new Move(this, startSquare, endSquare));
-            }
-        }
-        return move;
     }
 }
 
