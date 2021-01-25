@@ -49,12 +49,10 @@ class Piece {
         if (endSquare) {
             if (!endSquare.piece && !this.selfCheck(endSquare)) {
                 moves.push(new Move(this, startSquare, endSquare));
-                if (this.movement.repeat != 'once') {
-                    const repeatedMoves = this.repeatDirection(direction, endSquare);
-                    repeatedMoves.forEach((move) => {
-                        moves.push(move);
-                    });
-                }
+                const repeatedMoves = this.repeatDirection(direction, endSquare);
+                repeatedMoves.forEach((move) => {
+                    moves.push(move);
+                });
             } else if (endSquare.piece.color != this.color && !this.selfCheck(endSquare)) {
                 moves.push(new Move(startSquare, endSquare))
             }
