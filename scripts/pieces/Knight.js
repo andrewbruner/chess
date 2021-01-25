@@ -2,11 +2,11 @@ import Piece from './Piece.js';
 
 class Knight extends Piece {
     constructor(color, square) {
-        super(color);
+        super(color, square);
+        this.name = 'knight';
         this.notation = 'N';
-        this.square = square;
         this.movement = {
-            direction: [[1, 2], [2, 1], [2, -1], [1, -2], [-1,-2], [-2, -1], [-2, 1], [-1, 2]],
+            matrix: [[1, 2], [2, 1], [2, -1], [1, -2], [-1,-2], [-2, -1], [-2, 1], [-1, 2]],
             repeat: false
         };
     }
