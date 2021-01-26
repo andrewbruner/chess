@@ -1,4 +1,4 @@
-import chessgame from './script.js';
+import chessgame from '../script.js';
 
 class Move {
     constructor(piece, startSquare, endSquare, {

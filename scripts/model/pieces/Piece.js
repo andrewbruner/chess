@@ -1,5 +1,5 @@
 import Move from '../Move.js';
-import chessgame from '../script.js';
+import chessgame from '../../script.js';
 
 class Piece {
     constructor(color, square) {

@@ -1,6 +1,6 @@
 import Piece from './Piece.js';
 import Move from '../Move.js';
-import chessgame from '../script.js';
+import chessgame from '../../script.js';
 
 class Pawn extends Piece {
     constructor(color, square) {
