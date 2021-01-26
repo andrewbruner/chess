@@ -28,7 +28,7 @@ class Piece {
                         moves.push(move);
                     });
                 } else if (endSquare.piece.color != this.color) {
-                    moves.push(new Move(this, startSquare, endSquare))
+                    moves.push(new Move(this, startSquare, endSquare, { willCapture: true }))
                 }
             }
             return moves;
@@ -53,7 +53,7 @@ class Piece {
                     }
                 // endSquare has opponenet piece
                 } else if (endSquare.piece.color != this.color) {
-                    moves.push(new Move(this, startSquare, endSquare));
+                    moves.push(new Move(this, startSquare, endSquare, { willCapture: true }));
                 }
             }
         });

@@ -60,7 +60,7 @@ class Pawn extends Piece {
                 if (endSquare.piece) {
                     // end square piece is opponent and move does not selfcheck
                     if (endSquare.piece.color != this.color) {
-                        moves.push(new Move(this, startSquare, endSquare));
+                        moves.push(new Move(this, startSquare, endSquare, { willCapture: true }));
                     }
                 }
             }
