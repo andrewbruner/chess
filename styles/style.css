@@ -15,12 +15,12 @@
     /* use relative position for alphanumeric notation absolute positioning */
     position: relative;
 }
-.white {
+.light {
     /* color styles for white squares */
     color: #b58863;
     background-color: #f0d9b5;
 }
-.black {
+.dark {
     /* color styles for black squares */
     color: #f0d9b5;
     background-color: #b58863;
