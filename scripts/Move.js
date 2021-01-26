@@ -3,7 +3,6 @@ import chessgame from './script.js';
 class Move {
     constructor(piece, startSquare, endSquare, {
         willCapture = false,
-        willCheck = false,
         provokesEnPassant = false,
         isEnPassant = false,
         isCastle = false,
@@ -13,7 +12,6 @@ class Move {
         this.startSquare = startSquare;
         this.endSquare = endSquare;
         this.willCapture = willCapture;
-        this.willCheck = willCheck;
         this.provokesEnPassant = provokesEnPassant;
         this.isEnPassant = isEnPassant;
         this.isCastle = isCastle;
@@ -29,7 +27,46 @@ class Move {
             notation += 'x';
         }
         notation += this.endSquare.notation;
+        if (this.willCheck) {
+            notation += '+'
+        }
         return notation;
+    }
+
+    get willCheck() {
+        let check = false;
+
+        let kingSquare = null;
+        for (const notation in chessgame.board) {
+            if (chessgame.board[notation].piece?.name == 'king' && chessgame.board[notation].piece?.color != this.piece.color) {
+                kingSquare = chessgame.board[notation];
+            }
+        }
+
+        let originalEndPiece = null;
+        if (this.endSquare.piece) {
+            originalEndPiece = this.endSquare.piece;
+        }
+
+        this.startSquare.piece = null;
+        this.endSquare.piece = this.piece;
+        this.piece.square = this.endSquare;
+
+        for (const notation in chessgame.board) {
+            if (chessgame.board[notation].piece && chessgame.board[notation].piece?.color == this.piece.color) {
+                chessgame.board[notation].piece.moves.forEach((newMove) => {
+                    if (newMove.endSquare == kingSquare) {
+                        check = true;
+                    }
+                });
+            }
+        }
+
+        this.endSquare.piece = originalEndPiece;
+        this.startSquare.piece = this.piece;
+        this.piece.square = this.startSquare;
+
+        return check;
     }
 }
 
