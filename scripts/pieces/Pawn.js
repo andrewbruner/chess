@@ -33,16 +33,16 @@ class Pawn extends Piece {
             const endSquare = chessgame.board[endNotation];
 
             // end square is empty and move does not selfcheck
-            if (!endSquare.piece && !this.selfCheck(endSquare)) {
+            if (!endSquare.piece) {
                 moves.push(new Move(this, startSquare, endSquare));
                 // if pawn has not moved yet
                 if (!this.hasMoved) {
-                    const nextEndCoordinates = [startCoordinates[0] + route[0] + route[0], startCoordinates[1] + route[1] + route[1]];
-                    const nextEndNotation = String.fromCharCode(nextEndCoordinates[0] + 97) + (nextEndCoordinates[1] + 1);
-                    const nextEndSquare = chessgame.board[nextEndNotation];
+                    const newEndCoordinates = [startCoordinates[0] + route[0] + route[0], startCoordinates[1] + route[1] + route[1]];
+                    const newEndNotation = String.fromCharCode(newEndCoordinates[0] + 97) + (newEndCoordinates[1] + 1);
+                    const newEndSquare = chessgame.board[newEndNotation];
                     // next end square is empty and move does not selfcheck
-                    if (!nextEndSquare.piece && !this.selfCheck(nextEndSquare)) {
-                        moves.push(new Move(this, startSquare, nextEndSquare));
+                    if (!newEndSquare.piece) {
+                        moves.push(new Move(this, startSquare, newEndSquare));
                     }
                 }
             }
@@ -59,12 +59,13 @@ class Pawn extends Piece {
                 // end square holds piece
                 if (endSquare.piece) {
                     // end square piece is opponent and move does not selfcheck
-                    if (endSquare.piece.color != this.color && !this.selfCheck(endSquare)) {
+                    if (endSquare.piece.color != this.color) {
                         moves.push(new Move(this, startSquare, endSquare));
                     }
                 }
             }
         });
+        
         return moves;
     }
 }
