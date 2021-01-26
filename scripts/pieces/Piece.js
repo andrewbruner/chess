@@ -77,12 +77,12 @@ class Piece {
             }
             move.startSquare.piece = null;
             move.endSquare.piece = move.piece;
+            move.piece.square = move.endSquare;
             let safeToMove = true;
             for (const notation in chessgame.board) {
                 if (chessgame.board[notation].piece && chessgame.board[notation].piece?.color != move.piece.color) {
                     chessgame.board[notation].piece.moves.forEach((oppMove) => {
                         if (oppMove.endSquare == kingSquare) {
-                            console.log(move.endSquare.notation, oppMove.startSquare.notation);
                             safeToMove = false;
                         }
                     });
@@ -93,6 +93,7 @@ class Piece {
             }
             move.endSquare.piece = originalEndPiece;
             move.startSquare.piece = move.piece;
+            move.piece.square = move.startSquare;
         });
 
         return safeMoves;
