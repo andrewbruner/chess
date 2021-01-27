@@ -3,9 +3,9 @@ import view from '../view/view.js';
 
 const controller = {
     handleClick(event) {
-        const target = event.target;
+        let target = event.target;
         if (!chessgame.selectedPiece) {
-            if (target.dataset.type == 'piece') {
+            if (target.dataset.type == 'piece' || (target.classList.contains('notation') && target.parentNode.querySelector('[data-type="piece"]'))) {
                 const square = chessgame.board[target.parentNode.dataset.notation];
                 const piece = square.piece;
                 const possibleMoves = piece.moves;
@@ -18,6 +18,9 @@ const controller = {
                 }
             }
         } else if (chessgame.selectedPiece) {
+            if (target.classList.contains('notation')) {
+                target = target.parentNode.querySelector('piece') || target.parentNode;
+            }
             if (target.dataset.type == 'square' || target.dataset.type == 'piece') {
                 const piece = chessgame.selectedPiece;
                 if (target.dataset.type == 'piece' && target.dataset.color == piece.color) {
