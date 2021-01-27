@@ -29,6 +29,8 @@
     /* styles for alphanumeric notation */
     font-family: sans-serif;
     font-size: .875rem;
+    /* match cursor style to other targets */
+    cursor: default;
 }
 .alpha {
     /* styles for alpha notations */
