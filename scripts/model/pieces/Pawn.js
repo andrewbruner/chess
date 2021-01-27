@@ -32,17 +32,20 @@ class Pawn extends Piece {
             const endNotation = String.fromCharCode(endCoordinates[0] + 97) + (endCoordinates[1] + 1);
             const endSquare = chessgame.board[endNotation];
 
-            // end square is empty and move does not selfcheck
-            if (!endSquare.piece) {
-                moves.push(new Move(this, startSquare, endSquare));
-                // if pawn has not moved yet
-                if (!this.hasMoved) {
-                    const newEndCoordinates = [startCoordinates[0] + route[0] + route[0], startCoordinates[1] + route[1] + route[1]];
-                    const newEndNotation = String.fromCharCode(newEndCoordinates[0] + 97) + (newEndCoordinates[1] + 1);
-                    const newEndSquare = chessgame.board[newEndNotation];
-                    // next end square is empty and move does not selfcheck
-                    if (!newEndSquare.piece) {
-                        moves.push(new Move(this, startSquare, newEndSquare));
+            // if end square exists
+            if (endSquare) {
+                //if  end square is empty
+                if (!endSquare.piece) {
+                    moves.push(new Move(this, startSquare, endSquare));
+                    // if pawn has not moved yet
+                    if (!this.hasMoved) {
+                        const newEndCoordinates = [startCoordinates[0] + route[0] + route[0], startCoordinates[1] + route[1] + route[1]];
+                        const newEndNotation = String.fromCharCode(newEndCoordinates[0] + 97) + (newEndCoordinates[1] + 1);
+                        const newEndSquare = chessgame.board[newEndNotation];
+                        // next end square is empty
+                        if (!newEndSquare.piece) {
+                            moves.push(new Move(this, startSquare, newEndSquare));
+                        }
                     }
                 }
             }
@@ -58,7 +61,7 @@ class Pawn extends Piece {
             if (endSquare) {
                 // end square holds piece
                 if (endSquare.piece) {
-                    // end square piece is opponent and move does not selfcheck
+                    // end square piece is opponent
                     if (endSquare.piece.color != this.color) {
                         moves.push(new Move(this, startSquare, endSquare, { willCapture: true }));
                     }
