@@ -1,4 +1,4 @@
-import chessgame from './script.js';
+import chessgame from '../script.js';
 
 class Move {
     constructor(piece, startSquare, endSquare, {
@@ -22,7 +22,7 @@ class Move {
         let notation = this.piece.notation;
         if (this.willCapture) {
             if (!this.piece.notation) {
-                notation += this.piece.startSquare.notation.charAt(0);
+                notation += this.startSquare.notation.charAt(0);
             }
             notation += 'x';
         }
