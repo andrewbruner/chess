@@ -7,8 +7,8 @@ const chessgame = new Game();
 
 // add event listener for chessboard clicks
 document
-  .querySelector('.chessboard')
-  .addEventListener('click', controller.handleClick);
+    .querySelector('.chessboard')
+    .addEventListener('click', controller.handleClick);
 
 // enable chessgame access in browser console
 window.chessgame = chessgame;
