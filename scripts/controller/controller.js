@@ -29,15 +29,33 @@ const controller = {
                 const possibleMoves = piece.moves;
                 const moves = piece.removeSelfCheck(possibleMoves);
                 moves.forEach((move) => {
+                    // if clicked square is end square of move
                     if (move.endSquare == square) {
-                        console.log(move.notation);
+                        // push move to history
+                        chessgame.history.push(move.notation);
+                        // if there's is a piece in the end square
+                        if (square.piece) {
+                            // move piece to captured
+                            chessgame.captured[square.piece.color].push(square.piece);
+                            // change piece square to null
+                            square.piece.square = null;
+                        }
+                        // remove piece from start square
+                        move.startSquare.piece = null;
+                        // place piece in end square
+                        square.piece = piece;
+                        // change piece square to end square
+                        piece.square = square;
+                        // update piece has moved
+                        piece.hasMoved = true;
+                        // update view
+                        view.update(move.startSquare.notation, square.notation);
                     }
                 });
                 view.resetHighlights();
                 chessgame.selectedPiece = null;
             }
         }
-        view.update();
     }
 };
 
