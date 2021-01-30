@@ -22,19 +22,59 @@ const removeGreySquares = () => {
 };
 
 const makeAiMove = () => {
-    const moves = chessgame.moves({ verbose: true });
-    const captureMoves = [];
-    let chosenMoves = null;
+    // black can capture in 2
+    const betterMoves = [];
+    // black can capture now
+    const bestMoves = [];
 
+    // find moves
+    let moves = chessgame.moves({ verbose: true });
+
+    // if no moves, checkmate
     if (!moves.length) { return; }
 
+    // for each move
     moves.forEach((move) => {
-        if (move.captured) { captureMoves.push(move); }
+        // if it captures
+        if (move.captured) {
+            // push to best moves
+            bestMoves.push(move);
+            // go to next move
+            return;
+        }
+        // pretend to move
+        let chessgame2 = new Chess(chessgame.fen());
+        const from = move.from;
+        const to = move.to;
+        chessgame2.put(chessgame2.remove(from), to);
+        // find next moves
+        const nextMoves = chessgame2.moves({ verbose: true });
+        // for each next move
+        nextMoves.forEach((nextMove) => {
+            // if it captures
+            if (nextMove.captured) {
+                // push to better moves (if not already there)
+                if (!betterMoves.some((betterMove) => { betterMove == move })) {
+                    betterMoves.push(move);
+                }
+            }
+        });
     });
-    if (captureMoves.length) { chosenMoves = captureMoves; }
-    if (!captureMoves.length) { chosenMoves = moves; }
-    const randomIdx = Math.floor(Math.random() * chosenMoves.length)
-    chessgame.move(chosenMoves[randomIdx].san);
+
+    if (betterMoves.length) {
+        moves = betterMoves;
+    }
+    if (bestMoves.length) {
+        moves = bestMoves;
+    }
+
+    const sans = [];
+    moves.forEach((move) => { sans.push(move.san) });
+    console.log(sans);
+    const randomIdx = Math.floor(Math.random() * moves.length)
+    const randomMove = moves[randomIdx];
+    console.log(randomMove.san);
+    chessgame.move(randomMove.san);
     chessboard.position(chessgame.fen());
   }
 
