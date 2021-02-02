@@ -21,62 +21,55 @@ const removeGreySquares = () => {
         .forEach((square) => { square.style.background = '' });
 };
 
-const makeAiMove = () => {
-    // black can capture in 2
-    const betterMoves = [];
-    // black can capture now
-    const bestMoves = [];
+const pieceValues = {
+    p: 1,
+    n: 3,
+    b: 3,
+    r: 5,
+    q: 9,
+    k: 1000
+};
 
-    // find moves
-    let moves = chessgame.moves({ verbose: true });
-
-    // if no moves, checkmate
-    if (!moves.length) { return; }
-
-    // for each move
-    moves.forEach((move) => {
-        // if it captures
-        if (move.captured) {
-            // push to best moves
-            bestMoves.push(move);
-            // go to next move
-            return;
-        }
-        // pretend to move
-        let chessgame2 = new Chess(chessgame.fen());
-        const from = move.from;
-        const to = move.to;
-        chessgame2.put(chessgame2.remove(from), to);
-        // find next moves
-        const nextMoves = chessgame2.moves({ verbose: true });
-        // for each next move
-        nextMoves.forEach((nextMove) => {
-            // if it captures
-            if (nextMove.captured) {
-                // push to better moves (if not already there)
-                if (!betterMoves.some((betterMove) => { betterMove == move })) {
-                    betterMoves.push(move);
+const evaluateBoard = (board) => {
+    let score = 0;
+    board.forEach((rank) => {
+        rank.forEach((square) => {
+            if (square) {
+                if (square.color == 'w') {
+                    score += pieceValues[square.type];
+                } else {
+                    score -= pieceValues[square.type];
                 }
             }
-        });
+        })
     });
+    return score;
+};
 
-    if (betterMoves.length) {
-        moves = betterMoves;
-    }
-    if (bestMoves.length) {
+const makeAiMove = () => {
+    let highScore = 0;
+    let bestMoves =[];
+    let moves = chessgame.moves();
+    console.log(moves);
+    moves.forEach((move) => {
+        chessgame.move(move);
+        const score = evaluateBoard(chessgame.board())
+        if (score == highScore) {
+            bestMoves.push(move);
+        }
+        if (score < highScore) {
+            highScore = score;
+            bestMoves = [move];
+        }
+        chessgame.undo();
+    });
+    if (bestMoves) {
         moves = bestMoves;
     }
-
-    const sans = [];
-    moves.forEach((move) => { sans.push(move.san) });
-    console.log(sans);
-    const randomIdx = Math.floor(Math.random() * moves.length)
-    const randomMove = moves[randomIdx];
-    console.log(randomMove.san);
-    chessgame.move(randomMove.san);
+    console.log(moves);
+    chessgame.move(moves[Math.floor(Math.random() * moves.length)]);
     chessboard.position(chessgame.fen());
-  }
+}
 
 // CONFIG FUNCTIONS
 const onMouseoverSquare = (square, piece, position, orientation) => {
