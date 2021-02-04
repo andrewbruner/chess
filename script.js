@@ -46,28 +46,56 @@ const evaluateBoard = (board) => {
     return score;
 };
 
-const makeAiMove = () => {
-    let highScore = 0;
-    let bestMoves =[];
+const makeAiMove = (color) => {
+    let minimax = [];
     let moves = chessgame.moves();
-    console.log(moves);
-    moves.forEach((move) => {
+
+    moves.forEach((move, index) => {
+        minimax.push([move, []]);
         chessgame.move(move);
-        const score = evaluateBoard(chessgame.board())
-        if (score == highScore) {
-            bestMoves.push(move);
-        }
-        if (score < highScore) {
-            highScore = score;
-            bestMoves = [move];
-        }
+
+        let moves = chessgame.moves();
+        
+        moves.forEach((move) => {
+            chessgame.move(move);
+            const score = evaluateBoard(chessgame.board());
+            minimax[index][1].push([move, score])
+            chessgame.undo();
+        });
+
         chessgame.undo();
     });
-    if (bestMoves) {
-        moves = bestMoves;
-    }
+
+    console.log(minimax);
+
+    moves = [];
+    minimax.forEach((move) => {
+        let score;
+        move[1].forEach((nextMove) => {
+            if (!score) {
+                score = nextMove[1];
+            }
+            if (nextMove[1] > score) {
+                score = nextMove[1];
+            }
+        });
+        moves.push([move[0], score]);
+    });
+
+    let bestMoves;
+    moves.forEach((move) => {
+        if (!bestMoves) {
+            bestMoves = [move];
+        } else if (move[1] < bestMoves[0][1]) {
+            bestMoves = [move];
+        } else if (move[1] == bestMoves[0][1]) {
+            bestMoves.push(move);
+        }
+    });
+    moves = bestMoves;
+
     console.log(moves);
-    chessgame.move(moves[Math.floor(Math.random() * moves.length)]);
+    chessgame.move(moves[Math.floor(Math.random() * moves.length)][0]);
     chessboard.position(chessgame.fen());
 }
 
